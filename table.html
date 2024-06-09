@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <style>
+        .zl_margin {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <el-row :gutter="20">
+            <el-col :span="12">
+                <el-select v-model="value" placeholder="请选择">
+                    <el-option v-for="item in options" :key="item.signName" :label="item.signName"
+                        :value="item.signName">
+                    </el-option>
+                </el-select>
+            </el-col>
+        </el-row>
+        <el-row style="margin: 30px;">
+            <el-col :span="20">
+                <el-card>
+                    <div v-for="(item ,index) of tableData" :key="index">
+                        <el-tag  v-for="(item01 ,index01) of item" :key="index01" style="margin:10px;cursor:pointer;" :type="colors[index01%5]"
+                        @click="showMajors(item01)">{{item01}}</el-tag>
+                    </div>
+                    
+                </el-card>
+            </el-col>
+        </el-row>
+        <div style="width: 150px; 
+                    background-color: rgb(234, 8, 54); 
+                    box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 6px; 
+                    text-align: center; line-height: 40px; 
+                    color: #ffffff;
+                    position: fixed;
+                    bottom: 100px;
+                    right : 100px;
+                    cursor:pointer;
+                    " 
+                @click="jumpIndex()">
+            卡片显示
+        </div>
+        <div style="width: 150px; 
+                    background-color: rgb(234, 8, 210); 
+                    box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 6px; 
+                    text-align: center; line-height: 40px; 
+                    color: #ffffff;
+                    position: fixed;
+                    bottom: 150px;
+                    right : 100px;
+                    cursor:pointer;
+                    " 
+                @click="jumpTable()">
+            表格显示
+        </div>
+    </div>
+</body>
+
+<!-- import Vue before Element -->
+<!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+<script src="./magor.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                options: majors,
+                value: '哲学类',
+                colors:['','success','info','warning','danger']
+            }
+        },
+        methods:{
+            showMajors(item){
+                console.log(item);
+                //https://www.baike.com/wiki/
+                window.location.href="https://baike.baidu.com/search/word?word="+item
+            },
+            jumpIndex(){
+                window.location.href="./index.html" ;
+            },
+            jumpTable(){
+                window.location.href="./tables.html" ;
+            },
+        },
+        computed:{
+            tableData(){
+                let _value = this.value ;
+                let {options} = this ;
+                let element= options.filter((value,index)=>{
+                    if(value.signName == _value){
+                        return value ;
+                    }
+                });
+                return element.map((value,index)=>{
+                    return value.majors ;
+                })
+            },
+            
+            
+        },
+        
+    })
+</script>
+
+</html>
